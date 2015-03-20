@@ -17,29 +17,29 @@ var ConwayJSApp = (function () {
         for (var row = 0; row < rows; row++) {
             for (var col = 0; col < cols; col++) {
                 if (board[row][col] === 1) {
-                    ctx.fillRect(row * size + 1, col * size + 1, size - 1, size - 1);
+                    ctx.fillRect(col * size + 1, row * size + 1, size - 1, size - 1);
                 } else {
-                    ctx.clearRect(row * size + 1, col * size + 1, size - 1, size - 1);
+                    ctx.clearRect(col * size + 1, row * size + 1, size - 1, size - 1);
                 }
             }
         }
     }
 
-    function drawGrid(ctx, width, height) {
-        var cols = ~~(width / 10);
-        var rows = ~~(height / 10);
+    function drawGrid(ctx, canvasSize) {
+        var cols = ~~(canvasSize.width / 10);
+        var rows = ~~(canvasSize.height / 10);
         ctx.fillStyle = '#3061a3';
         ctx.strokeStyle = '#aaa';
         for (var row = 0; row < rows; row++) {
             ctx.beginPath();
             ctx.moveTo(0, row * 10);
-            ctx.lineTo(width, row * 10);
+            ctx.lineTo(canvasSize.width, row * 10);
             ctx.stroke();
         }
         for (var col = 0; col < cols; col++) {
             ctx.beginPath();
             ctx.moveTo(col * 10, 0);
-            ctx.lineTo(col * 10, height);
+            ctx.lineTo(col * 10, canvasSize.height);
             ctx.stroke();
         }
     }
@@ -48,17 +48,10 @@ var ConwayJSApp = (function () {
         return randomSeed[Math.round(Math.random() * (randomSeed.length - 1))];
     }
 
-    function getRandomPattern(width, height) {
-        var cols = ~~(width / 10);
-        var rows = ~~(height / 10);
-        var pattern = new Array(rows);
-        for (var row = 0; row < rows; row++) {
-            pattern[row] = [];
-            for (var col = 0; col < cols; col++) {
-                pattern[row].push(getRandomValue());
-            }
-        }
-        return pattern;g
+    function getRandomPattern(canvasSize) {
+        var cols = ~~(canvasSize.width / 10);
+        var rows = ~~(canvasSize.height / 10);
+        return _.times(rows, _.times.bind(null, cols, getRandomValue));
     }
 
     return React.createClass({
@@ -74,19 +67,20 @@ var ConwayJSApp = (function () {
         },
         componentDidMount: function () {
             var ctx = this.refs.canvas.getDOMNode().getContext('2d');
-            drawGrid(ctx, this.state.size.width, this.state.size.height);
+            drawGrid(ctx, this.getCanvasSize());
             window.addEventListener('resize', this.updateWindowSize);
             this.randomize();
         },
         componentWillUnmount: function () {
             window.removeEventListener('resize', this.updateWindowSize);
         },
-        componentWillUpdate: function () {
+        componentDidUpdate: function () {
             var ctx = this.refs.canvas.getDOMNode().getContext('2d');
-            drawGrid(ctx, this.state.size.width, this.state.size.height);
+            drawGrid(ctx, this.getCanvasSize());
+            drawBoard(ctx, conway.getBoard());
         },
         randomize: function () {
-            conway = new ConwayJS(getRandomPattern(this.state.size.width, this.state.size.height));
+            conway = new ConwayJS(getRandomPattern(this.getCanvasSize()));
             this.drawBoard();
         },
         tick: function () {
@@ -97,6 +91,12 @@ var ConwayJSApp = (function () {
             var ctx = this.refs.canvas.getDOMNode().getContext('2d');
             this.setState({generations: conway.getGenerations()});
             drawBoard(ctx, conway.getBoard());
+        },
+        getCanvasSize: function () {
+            return {
+                width: this.state.size.width - 100,
+                height: this.state.size.height - 100
+            }
         },
         render: function () {
             return React.DOM.div({
@@ -109,12 +109,12 @@ var ConwayJSApp = (function () {
                     React.DOM.input({type: 'button', value: 'tick', onClick: this.tick}),
                     React.DOM.input({type: 'number', value: this.state.generations, readOnly: true})
                 ),
-                React.DOM.canvas({
-                    ref: 'canvas',
-                    id: 'canvas',
-                    width: this.state.size.width - 100,
-                    height: this.state.size.height - 100
-                })
+                React.DOM.canvas(_.assign({
+                        ref: 'canvas',
+                        id: 'canvas'
+                    },
+                    this.getCanvasSize()
+                ))
             );
         }
     });

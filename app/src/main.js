@@ -1,6 +1,8 @@
 var ConwayJSApp = (function () {
 
     var PLAY_INTERVAL = 1000;
+    var MIN_CANVAS_WIDTH = 500;
+    var MIN_CANVAS_HEIGHT = 300;
 
     var conway;
     var randomSeed = [1, 0, 0, 0, 0];
@@ -97,8 +99,8 @@ var ConwayJSApp = (function () {
         },
         getCanvasSize: function () {
             return {
-                width: this.state.size.width - 100,
-                height: this.state.size.height - 100
+                width: ~~(Math.max(this.state.size.width - 100, MIN_CANVAS_WIDTH) / 10) * 10,
+                height: ~~(Math.max(this.state.size.height - 100, MIN_CANVAS_HEIGHT) / 10) * 10
             }
         },
         togglePlay: function () {

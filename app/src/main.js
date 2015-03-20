@@ -1,5 +1,7 @@
 var ConwayJSApp = (function () {
 
+    var PLAY_INTERVAL = 1000;
+
     var conway;
     var randomSeed = [1, 0, 0, 0, 0];
 
@@ -59,7 +61,8 @@ var ConwayJSApp = (function () {
         getInitialState: function () {
             return {
                 size: getWindowSize(),
-                generations: 0
+                generations: 0,
+                isPlaying: false
             };
         },
         updateWindowSize: function () {
@@ -98,6 +101,16 @@ var ConwayJSApp = (function () {
                 height: this.state.size.height - 100
             }
         },
+        togglePlay: function () {
+            if (this.state.isPlaying) {
+                window.clearInterval(this.playInterval);
+                this.setState({isPlaying: false});
+            } else {
+                this.tick();
+                this.playInterval = window.setInterval(this.tick, PLAY_INTERVAL);
+                this.setState({isPlaying: true});
+            }
+        },
         render: function () {
             return React.DOM.div({
                     id: 'conwayJS'
@@ -107,6 +120,11 @@ var ConwayJSApp = (function () {
                     },
                     React.DOM.input({type: 'button', value: 'randomize', onClick: this.randomize}),
                     React.DOM.input({type: 'button', value: 'tick', onClick: this.tick}),
+                    React.DOM.input({
+                        type: 'button',
+                        value: this.state.isPlaying ? 'pause' : 'play',
+                        onClick: this.togglePlay
+                    }),
                     React.DOM.input({type: 'number', value: this.state.generations, readOnly: true})
                 ),
                 React.DOM.canvas(_.assign({

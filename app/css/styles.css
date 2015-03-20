@@ -1,0 +1,28 @@
+#controls {
+    margin-bottom: 10px;
+}
+
+#canvas {
+    border: thin solid black;
+    margin: 0 auto;
+    display: block;
+}
+
+#controls :not(:last-child){
+    margin-right: 5px;
+}
+
+input {
+    font-size: 1.5em;
+}
+
+input[type="button"] {
+    background-color: #3061a3;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="button"]:hover {
+    background-color: #3974c3;
+}

@@ -63,10 +63,23 @@ var ConwayJS = (function () {
             this.pattern = nextPattern;
             return ++this.generations;
         },
-        setCellValue: function(row, col, value){
+        setCellValue: function (row, col, value) {
+            if (this.pattern[row] === undefined || this.pattern[row][col] === undefined) {
+                return;
+            }
             this.pattern[row][col] = value;
         },
-        getGenerations: function(){
+        resetBoard: function(){
+            var rows = this.pattern.length;
+            var cols = this.pattern[0].length;
+            for (var row = 0; row < rows; row++) {
+                for (var col = 0; col < cols; col++) {
+                    this.pattern[row][col] = 0;
+                }
+            }
+            this.generations = 0;
+        },
+        getGenerations: function () {
             return this.generations;
         },
         getBoard: function () {

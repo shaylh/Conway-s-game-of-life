@@ -72,7 +72,7 @@ define([], function(){
 
         });
 
-        describe('Set cell value', function(){
+        describe('Board manipulations', function(){
 
             it('should set a cell value at the correct coordinates', function(){
                 conway = new ConwayJS([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
@@ -80,6 +80,23 @@ define([], function(){
                 expect(conway.getBoard()).toEqual([[0, 0, 0], [0, 0, 0], [0, 1, 0]]);
             });
 
+            it('should ignore if setting value to a cell that does not exist', function(){
+                conway = new ConwayJS([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+                conway.setCellValue(10, 1, 1);
+                conway.setCellValue(1, 10, 1);
+                expect(conway.getBoard()).toEqual([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+            });
+
+            it('should reset board', function(){
+                conway = new ConwayJS([[1, 1, 1], [1, 1, 1], [1, 1, 1]]);
+                conway.tick();
+                expect(conway.getGenerations()).toBe(1);
+                conway.resetBoard();
+                expect(conway.getGenerations()).toBe(0);
+                expect(conway.getBoard()).toEqual([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+            });
+
         });
+
     });
 });

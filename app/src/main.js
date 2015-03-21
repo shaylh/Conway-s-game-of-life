@@ -5,13 +5,28 @@ var ConwayJSApp = (function () {
     var MIN_CANVAS_HEIGHT = 300;
 
     var conway;
-    var randomSeed = [1, 0, 0, 0, 0];
+    var randomSeed20 = [1, 0, 0, 0, 0];
+    var randomSeed50 = [1, 0];
 
     function getWindowSize() {
         return {
             width: window.innerWidth,
             height: window.innerHeight
         };
+    }
+
+    function addRandomPattern(conway, canvasSize) {
+        var row = Math.round(Math.random() * ~~(canvasSize.height / 10));
+        var col = Math.round(Math.random() * ~~(canvasSize.width / 10));
+        conway.setCellValue(row - 1, col - 1, getRandomValue(randomSeed50));
+        conway.setCellValue(row - 1, col, getRandomValue(randomSeed50));
+        conway.setCellValue(row - 1, col + 1, getRandomValue(randomSeed50));
+        conway.setCellValue(row, col - 1, getRandomValue(randomSeed50));
+        conway.setCellValue(row, col, getRandomValue(randomSeed50));
+        conway.setCellValue(row, col + 1, getRandomValue(randomSeed50));
+        conway.setCellValue(row + 1, col - 1, getRandomValue(randomSeed50));
+        conway.setCellValue(row + 1, col, getRandomValue(randomSeed50));
+        conway.setCellValue(row + 1, col + 1, getRandomValue(randomSeed50));
     }
 
     function drawBoard(ctx, board) {
@@ -48,8 +63,9 @@ var ConwayJSApp = (function () {
         }
     }
 
-    function getRandomValue() {
-        return randomSeed[Math.round(Math.random() * (randomSeed.length - 1))];
+    function getRandomValue(randomSeed) {
+        var seed = _.isArray(randomSeed) ? randomSeed : randomSeed20;
+        return seed[Math.round(Math.random() * (seed.length - 1))];
     }
 
     function getRandomPattern(canvasSize) {
@@ -113,6 +129,14 @@ var ConwayJSApp = (function () {
                 this.setState({isPlaying: true});
             }
         },
+        addRandomPattern: function () {
+            addRandomPattern(conway, this.getCanvasSize());
+            this.drawBoard();
+        },
+        resetBoard: function(){
+            conway.resetBoard();
+            this.drawBoard();
+        },
         render: function () {
             return React.DOM.div({
                     id: 'conwayJS'
@@ -122,6 +146,8 @@ var ConwayJSApp = (function () {
                     },
                     React.DOM.input({type: 'button', value: 'randomize', onClick: this.randomize}),
                     React.DOM.input({type: 'button', value: 'tick', onClick: this.tick}),
+                    React.DOM.input({type: 'button', value: 'add random pattern', onClick: this.addRandomPattern}),
+                    React.DOM.input({type: 'button', value: 'reset', onClick: this.resetBoard}),
                     React.DOM.input({
                         type: 'button',
                         value: this.state.isPlaying ? 'pause' : 'play',

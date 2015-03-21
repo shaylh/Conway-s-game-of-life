@@ -174,7 +174,9 @@ var ConwayJSApp = (function () {
                     React.DOM.span({className: 'divider'}),
                     React.DOM.a({href: 'http://il.linkedin.com/in/lachmanovich', target: 'blank'}, 'linkedin'),
                     React.DOM.span({className: 'divider'}),
-                    React.DOM.a({}, 'github')
+                    React.DOM.a({href: 'https://github.com/shaylh/Conway-s-game-of-life', target: 'blank'}, 'github'),
+                    React.DOM.span({className: 'divider'}),
+                    React.DOM.a({href: 'http://en.wikipedia.org/wiki/Conway%27s_Game_of_Life', target: 'blank'}, 'about the game')
                 )
             );
         }

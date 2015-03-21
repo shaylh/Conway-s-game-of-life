@@ -72,5 +72,14 @@ define([], function(){
 
         });
 
+        describe('Set cell value', function(){
+
+            it('should set a cell value at the correct coordinates', function(){
+                conway = new ConwayJS([[0, 0, 0], [0, 0, 0], [0, 0, 0]]);
+                conway.setCellValue(2, 1, 1);
+                expect(conway.getBoard()).toEqual([[0, 0, 0], [0, 0, 0], [0, 1, 0]]);
+            });
+
+        });
     });
 });

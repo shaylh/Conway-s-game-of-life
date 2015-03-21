@@ -63,6 +63,9 @@ var ConwayJS = (function () {
             this.pattern = nextPattern;
             return ++this.generations;
         },
+        setCellValue: function(row, col, value){
+            this.pattern[row][col] = value;
+        },
         getGenerations: function(){
             return this.generations;
         },

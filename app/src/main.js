@@ -144,16 +144,20 @@ var ConwayJSApp = (function () {
                 React.DOM.div({
                         id: 'controls'
                     },
-                    React.DOM.input({type: 'button', value: 'randomize', onClick: this.randomize}),
-                    React.DOM.input({type: 'button', value: 'tick', onClick: this.tick}),
-                    React.DOM.input({type: 'button', value: 'add random pattern', onClick: this.addRandomPattern}),
-                    React.DOM.input({type: 'button', value: 'reset', onClick: this.resetBoard}),
-                    React.DOM.input({
-                        type: 'button',
-                        value: this.state.isPlaying ? 'pause' : 'play',
-                        onClick: this.togglePlay
-                    }),
-                    React.DOM.input({type: 'number', value: this.state.generations, readOnly: true})
+                    React.DOM.div({className: 'inline board'},
+                        React.DOM.input({type: 'button', value: 'random board', onClick: this.randomize}),
+                        React.DOM.input({type: 'button', value: 'random life form', onClick: this.addRandomPattern}),
+                        React.DOM.input({type: 'button', value: 'reset', onClick: this.resetBoard})
+                    ),
+                    React.DOM.div({className: 'inline timeline'},
+                        React.DOM.input({type: 'button', value: 'tick', onClick: this.tick}),
+                        React.DOM.input({
+                            type: 'button',
+                            value: this.state.isPlaying ? 'pause' : 'play',
+                            onClick: this.togglePlay
+                        }),
+                        React.DOM.span({className: 'input'}, this.state.generations)
+                    )
                 ),
                 React.DOM.canvas(_.assign({
                         ref: 'canvas',

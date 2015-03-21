@@ -47,8 +47,8 @@ var ConwayJSApp = (function () {
     function drawGrid(ctx, canvasSize) {
         var cols = ~~(canvasSize.width / 10);
         var rows = ~~(canvasSize.height / 10);
-        ctx.fillStyle = '#3061a3';
-        ctx.strokeStyle = '#aaa';
+        ctx.fillStyle = '#a4ff00';
+        ctx.strokeStyle = '#333';
         for (var row = 0; row < rows; row++) {
             ctx.beginPath();
             ctx.moveTo(0, row * 10);
@@ -116,55 +116,57 @@ var ConwayJSApp = (function () {
         getCanvasSize: function () {
             return {
                 width: ~~(Math.max(this.state.size.width - 100, MIN_CANVAS_WIDTH) / 10) * 10,
-                height: ~~(Math.max(this.state.size.height - 100, MIN_CANVAS_HEIGHT) / 10) * 10
+                height: ~~(Math.max(this.state.size.height - 130, MIN_CANVAS_HEIGHT) / 10) * 10
             }
         },
         togglePlay: function () {
             if (this.state.isPlaying) {
-                window.clearInterval(this.playInterval);
-                this.setState({isPlaying: false});
+                this.pause();
             } else {
-                this.tick();
-                this.playInterval = window.setInterval(this.tick, PLAY_INTERVAL);
-                this.setState({isPlaying: true});
+                this.play();
             }
+        },
+        play: function(){
+            this.tick();
+            this.playInterval = window.setInterval(this.tick, PLAY_INTERVAL);
+            this.setState({isPlaying: true});
+        },
+        pause: function(){
+            window.clearInterval(this.playInterval);
+            this.setState({isPlaying: false});
         },
         addRandomPattern: function () {
             addRandomPattern(conway, this.getCanvasSize());
             this.drawBoard();
         },
-        resetBoard: function(){
+        resetBoard: function () {
             conway.resetBoard();
+            this.pause();
             this.drawBoard();
         },
         render: function () {
             return React.DOM.div({
                     id: 'conwayJS'
                 },
-                React.DOM.div({
-                        id: 'controls'
-                    },
-                    React.DOM.div({className: 'inline board'},
-                        React.DOM.input({type: 'button', value: 'random board', onClick: this.randomize}),
-                        React.DOM.input({type: 'button', value: 'random life form', onClick: this.addRandomPattern}),
-                        React.DOM.input({type: 'button', value: 'reset', onClick: this.resetBoard})
-                    ),
-                    React.DOM.div({className: 'inline timeline'},
-                        React.DOM.input({type: 'button', value: 'tick', onClick: this.tick}),
-                        React.DOM.input({
-                            type: 'button',
-                            value: this.state.isPlaying ? 'pause' : 'play',
-                            onClick: this.togglePlay
-                        }),
-                        React.DOM.span({className: 'input'}, this.state.generations)
-                    )
+
+                React.DOM.div({className: 'controls'},
+                    React.DOM.span({className: 'button', onClick: this.randomize}, 'RANDOM\nBOARD'),
+                    React.DOM.span({className: 'button', onClick: this.addRandomPattern}, 'RANDOM\nLIFE FORM'),
+                    React.DOM.span({className: 'button', onClick: this.resetBoard}, 'RESET'),
+                    React.DOM.span({className: 'separator', onClick: this.resetBoard}),
+                    React.DOM.span({className: 'button', onClick: this.tick}, 'TICK'),
+                    React.DOM.span({
+                        className: 'button',
+                        onClick: this.togglePlay
+                    }, this.state.isPlaying ? 'PAUSE' : 'PLAY')
                 ),
-                React.DOM.canvas(_.assign({
-                        ref: 'canvas',
-                        id: 'canvas'
-                    },
-                    this.getCanvasSize()
-                ))
+                React.DOM.div({id: 'board'},
+                    React.DOM.div({className: 'controls'},
+                        React.DOM.span({className: 'separator', onClick: this.resetBoard}),
+                        React.DOM.div({className: ''}, 'GENERATIONS: ' + this.state.generations)
+                    ),
+                    React.DOM.canvas(_.assign({ref: 'canvas', id: 'canvas'}, this.getCanvasSize()))
+                )
             );
         }
     });

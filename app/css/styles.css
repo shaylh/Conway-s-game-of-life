@@ -1,47 +1,48 @@
-#controls {
-    margin-bottom: 10px;
+@font-face {
+    font-family: arcade;
+    src: url(prstart.ttf);
+}
+
+body {
+    background-color: black;
+    color: #a4ff00;
+    font-family: arcade;
+    padding: 20px;
+}
+
+#conwayJS {
     text-align: center;
+}
+
+.controls {
+    margin-bottom: 10px;
     display: flex;
 }
 
-#canvas {
-    border: thin solid black;
+.controls :not(:last-child) {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#board {
     margin: 0 auto;
-    display: block;
-}
-
-#controls :not(:last-child){
-    margin-right: 5px;
-}
-
-input, .input {
-    font-size: 1.5em;
-}
-
-input[type="button"] {
-    background-color: #3061a3;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-input[type="button"]:hover {
-    background-color: #3974c3;
-}
-
-div.inline {
     display: inline-block;
+    text-align: right;
 }
 
-#controls div.inline{
-    border: thin solid black;
-    padding: 3px;
+#board #canvas {
+    border: thin solid #a4ff00;
 }
 
-#controls div.board {
-    flex: 2;
+.button {
+    cursor: pointer;
+    white-space: pre
 }
 
-#controls div.timeline {
+.button:hover {
+    color: yellow;
+}
+
+.separator {
     flex: 1;
 }

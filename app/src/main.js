@@ -116,7 +116,7 @@ var ConwayJSApp = (function () {
         getCanvasSize: function () {
             return {
                 width: ~~(Math.max(this.state.size.width - 100, MIN_CANVAS_WIDTH) / 10) * 10,
-                height: ~~(Math.max(this.state.size.height - 130, MIN_CANVAS_HEIGHT) / 10) * 10
+                height: ~~(Math.max(this.state.size.height - 250, MIN_CANVAS_HEIGHT) / 10) * 10
             }
         },
         togglePlay: function () {
@@ -148,24 +148,33 @@ var ConwayJSApp = (function () {
             return React.DOM.div({
                     id: 'conwayJS'
                 },
-
+                React.DOM.header({id: 'header'}, 'conway\'s game of life, js style'),
                 React.DOM.div({className: 'controls'},
-                    React.DOM.span({className: 'button', onClick: this.randomize}, 'RANDOM\nBOARD'),
-                    React.DOM.span({className: 'button', onClick: this.addRandomPattern}, 'RANDOM\nLIFE FORM'),
-                    React.DOM.span({className: 'button', onClick: this.resetBoard}, 'RESET'),
+                    React.DOM.span({className: 'button non-selectable', onClick: this.randomize}, 'random\nboard'),
+                    React.DOM.span({className: 'button non-selectable', onClick: this.addRandomPattern}, 'random\nlife form'),
+                    React.DOM.span({className: 'button non-selectable', onClick: this.resetBoard}, 'reset'),
                     React.DOM.span({className: 'separator', onClick: this.resetBoard}),
-                    React.DOM.span({className: 'button', onClick: this.tick}, 'TICK'),
+                    React.DOM.span({className: 'button non-selectable', onClick: this.tick}, 'tick'),
                     React.DOM.span({
-                        className: 'button',
+                        className: 'button non-selectable',
                         onClick: this.togglePlay
-                    }, this.state.isPlaying ? 'PAUSE' : 'PLAY')
+                    }, this.state.isPlaying ? 'pause' : 'play')
                 ),
                 React.DOM.div({id: 'board'},
                     React.DOM.div({className: 'controls'},
                         React.DOM.span({className: 'separator', onClick: this.resetBoard}),
-                        React.DOM.div({className: ''}, 'GENERATIONS: ' + this.state.generations)
+                        React.DOM.div({className: ''}, 'generations: ' + this.state.generations)
                     ),
                     React.DOM.canvas(_.assign({ref: 'canvas', id: 'canvas'}, this.getCanvasSize()))
+                ),
+                React.DOM.footer({id: 'footer'},
+                    '© shai lachmanovich 2015',
+                    React.DOM.span({className: 'divider'}),
+                    React.DOM.a({href: 'mailto:lachmanovich@gmail.com'}, 'email'),
+                    React.DOM.span({className: 'divider'}),
+                    React.DOM.a({href: 'http://il.linkedin.com/in/lachmanovich', target: 'blank'}, 'linkedin'),
+                    React.DOM.span({className: 'divider'}),
+                    React.DOM.a({}, 'github')
                 )
             );
         }

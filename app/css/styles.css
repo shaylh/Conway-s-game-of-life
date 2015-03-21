@@ -8,20 +8,30 @@ body {
     color: #a4ff00;
     font-family: arcade;
     padding: 20px;
+    text-transform: uppercase;
+}
+a {
+    color: yellow;
+}
+
+a:hover {
+    color: #a4ff00;
 }
 
 #conwayJS {
     text-align: center;
 }
 
-.controls {
-    margin-bottom: 10px;
-    display: flex;
+#header {
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: yellow;
 }
 
-.controls :not(:last-child) {
-    margin-left: 20px;
-    margin-right: 20px;
+#footer {
+    margin-top: 5px;
+    font-size: 0.75em;
+    color: yellow;
 }
 
 #board {
@@ -34,9 +44,19 @@ body {
     border: thin solid #a4ff00;
 }
 
+.controls {
+    margin-bottom: 10px;
+    display: flex;
+}
+
+.controls :not(:last-child) {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 .button {
     cursor: pointer;
-    white-space: pre
+    white-space: pre;
 }
 
 .button:hover {
@@ -45,4 +65,22 @@ body {
 
 .separator {
     flex: 1;
+}
+
+.divider {
+   margin: 0 5px;
+}
+
+.divider:before {
+    content: '|';
+}
+
+.non-selectable {
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }

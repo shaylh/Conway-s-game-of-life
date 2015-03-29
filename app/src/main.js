@@ -148,7 +148,7 @@ var ConwayJSApp = (function () {
             return React.DOM.div({
                     id: 'conwayJS'
                 },
-                React.DOM.header({id: 'header'}, 'conway\'s game of life, js style'),
+                React.DOM.header({id: 'header'}, 'conway\'s game of life'),
                 React.DOM.div({className: 'controls'},
                     React.DOM.span({className: 'button non-selectable', onClick: this.randomize}, 'random\nboard'),
                     React.DOM.span({className: 'button non-selectable', onClick: this.addRandomPattern}, 'random\nlife form'),
@@ -168,7 +168,9 @@ var ConwayJSApp = (function () {
                     React.DOM.canvas(_.assign({ref: 'canvas', id: 'canvas'}, this.getCanvasSize()))
                 ),
                 React.DOM.footer({id: 'footer'},
-                    '© shai lachmanovich 2015',
+                    '© ',
+                    React.DOM.a({href: 'http://lachmanovi.ch', target: 'blank'}, 'shai lachmanovich'),'' +
+                    ' 2015',
                     React.DOM.span({className: 'divider'}),
                     React.DOM.a({href: 'mailto:lachmanovich@gmail.com'}, 'email'),
                     React.DOM.span({className: 'divider'}),
